@@ -4,51 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VA Labs by Izzy P.</title>
-  <meta name="description" content="Small, careful tools built by a virtual assistant for virtual assistants.">
+  <meta name="description" content="Small, careful tools built by a virtual assistant, for virtual assistants. Home of CRM Sync for Brivity scorecards.">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="home">
   <header class="site">
     <div class="wrap">
-      <a class="brand" href="./"><span class="dot" aria-hidden="true"></span>VA Labs</a>
+      <a class="brand" href="./"><span class="dot" aria-hidden="true"></span>VA Labs by Izzy P.</a>
       <nav class="site" aria-label="Main"><a href="#contact">Contact</a></nav>
     </div>
   </header>
 
   <main class="wrap">
-    <div class="hero">
-      <h1>VA Labs<span class="by">by Izzy P.</span></h1>
-      <p>Small, careful tools built by a virtual assistant, for virtual assistants. Each one takes a repetitive task off your plate and keeps your data where it belongs: with you.</p>
-    </div>
+    <section class="hero2" aria-labelledby="hero-h">
+      <div>
+        <h1 id="hero-h">Tools that do the busywork, so you can do the work.</h1>
+        <p class="lede">I'm a virtual assistant who builds small, careful tools for other VAs. Each one takes a repetitive task off your plate and keeps your data where it belongs: with you.</p>
+        <a class="btn-link" href="#crm-sync">See CRM Sync</a>
+      </div>
 
-    <section aria-labelledby="projects">
-      <h2 id="projects">Projects</h2>
-      <article class="project">
-        <h3><span class="dot" aria-hidden="true"></span>CRM Sync</h3>
-        <p class="what">A Chrome extension that fills in a team's weekly Brivity scorecard. It counts each agent's leads, appointments, calls and overdue tasks in Brivity, then writes the numbers into the team's own Google Sheet.</p>
-        <dl class="facts">
-          <dt>Works with</dt><dd>Brivity CRM and Google Sheets</dd>
-          <dt>Runs in</dt><dd>Google Chrome, on your own computer</dd>
-          <dt>Price</dt><dd>Free</dd>
-        </dl>
-        <div class="links">
-          <a href="crm-sync-privacy.html">CRM Sync privacy policy</a>
-          <a href="#contact">Get help</a>
-        </div>
-      </article>
-      <p style="margin-top:1rem;color:var(--muted);font-size:.95rem">CRM Sync is an independent tool. It isn't made, endorsed or supported by Brivity.</p>
+      <figure class="sheet" aria-label="Example: CRM Sync filling in a weekly scorecard">
+        <div class="bar"><span class="dot" aria-hidden="true"></span>Weekly scorecard</div>
+        <table>
+          <thead>
+            <tr><th scope="col">Agent</th><th scope="col">Appts set</th><th scope="col">Calls</th><th scope="col">Overdue</th><th scope="col">New leads</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Jordan Lee</td><td class="n" style="animation-delay:.3s">3</td><td class="n" style="animation-delay:.5s">112</td><td class="n" style="animation-delay:.7s">14</td><td class="n" style="animation-delay:.9s">27</td></tr>
+            <tr><td>Sam Rivera</td><td class="n" style="animation-delay:1.1s">1</td><td class="n" style="animation-delay:1.3s">48</td><td class="n" style="animation-delay:1.5s">6</td><td class="n" style="animation-delay:1.7s">9</td></tr>
+            <tr><td>Taylor Kim</td><td class="n" style="animation-delay:1.9s">0</td><td class="n" style="animation-delay:2.05s">31</td><td class="n" style="animation-delay:2.2s">22</td><td class="n" style="animation-delay:2.35s">15</td></tr>
+          </tbody>
+        </table>
+        <figcaption class="status"><span class="dot" aria-hidden="true" style="width:.55rem;height:.55rem"></span>Filled in by CRM Sync</figcaption>
+      </figure>
     </section>
 
-    <section id="contact" aria-labelledby="contact-h">
-      <h2 id="contact-h">Contact</h2>
-      <p>Questions, problems or ideas for a new tool? Email <a href="mailto:noobpsykho@gmail.com">noobpsykho@gmail.com</a>.</p>
+    <section class="band" id="crm-sync" aria-labelledby="proj-h">
+      <h2 id="proj-h">Projects</h2>
+      <div class="proj">
+        <div>
+          <h3><span class="dot" aria-hidden="true"></span>CRM Sync</h3>
+          <p>A free Chrome extension that fills in a real estate team's weekly Brivity scorecard in Google Sheets, in a few minutes instead of an afternoon.</p>
+          <p class="aside">CRM Sync is an independent tool. It isn't made, endorsed or supported by Brivity.</p>
+          <p class="links"><a href="crm-sync-privacy.html">Privacy policy</a> <a href="crm-sync-terms.html">Terms</a> <a href="#contact">Get help</a></p>
+        </div>
+        <ul>
+          <li><b>Counts everything for each agent</b>Leads by status, appointments set, calls made and overdue tasks, straight from Brivity.</li>
+          <li><b>Writes to your own scorecard</b>Results go into your team's Google Sheet, matched to the right columns by their titles.</li>
+          <li><b>Checks before it writes</b>It audits your sheet first and never fills in a number it couldn't confirm.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="how-h">
+      <h2 id="how-h">How I build</h2>
+      <div class="principles">
+        <div>
+          <h3>Runs on your computer</h3>
+          <p>My tools work inside your own browser. There's no server in the middle and no account to create.</p>
+        </div>
+        <div>
+          <h3>Your data stays yours</h3>
+          <p>No tracking, no ads, and nothing sold or shared. Every tool has a plain-language privacy policy.</p>
+        </div>
+        <div>
+          <h3>Made for real VA work</h3>
+          <p>Each tool starts from a task I actually do, and is tested on real client work before anyone else uses it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band about" id="contact" aria-labelledby="about-h">
+      <div>
+        <h2 id="about-h">About</h2>
+        <p>VA Labs is run by Izzy P., a virtual assistant supporting real estate teams. It started with one weekly scorecard that took far too long to fill in by hand, and grew from there.</p>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <p>Questions, problems, or an idea for the next tool?</p>
+        <p><a class="contact-email" href="mailto:noobpsykho@gmail.com">noobpsykho@gmail.com</a></p>
+      </div>
     </section>
   </main>
 
   <footer class="site">
     <div class="wrap">
       <span>VA Labs by Izzy P.</span>
-      <a href="crm-sync-privacy.html">CRM Sync privacy policy</a>
+      <span><a href="crm-sync-privacy.html">CRM Sync privacy policy</a> &nbsp; <a href="crm-sync-terms.html">Terms</a></span>
     </div>
   </footer>
 </body>
