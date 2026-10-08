@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRM Sync privacy policy | VA Labs by Izzy P.</title>
+  <meta name="description" content="How the CRM Sync Chrome extension handles Brivity and Google Sheets data.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="./"><span class="dot" aria-hidden="true"></span>VA Labs</a>
+      <nav class="site" aria-label="Main"><a href="./#contact">Contact</a></nav>
+    </div>
+  </header>
+
+  <main class="wrap policy">
+    <h1>CRM Sync privacy policy</h1>
+    <p class="meta">Effective October 8, 2026. Published by VA Labs by Izzy P.</p>
+
+    <div class="short">
+      <h2>The short version</h2>
+      <ul>
+        <li>CRM Sync runs in your own Chrome browser. There is no CRM Sync server, so your data never passes through us.</li>
+        <li>It reads <strong>counts</strong> from Brivity (how many leads, appointments, calls and overdue tasks each agent has), not your contacts' details.</li>
+        <li>It writes those counts only to the Google Sheet you connect.</li>
+        <li>No analytics, no ads, and your data is never sold or shared.</li>
+      </ul>
+    </div>
+
+    <section>
+      <h2>What CRM Sync does</h2>
+      <p>CRM Sync is a Chrome extension that fills in a team's weekly Brivity scorecard. When you run a sync, it opens Brivity pages in background tabs of your own browser, reads the numbers the scorecard needs for each agent, and writes them into your scorecard in Google Sheets.</p>
+      <p>CRM Sync is an independent tool. It isn't made, endorsed or supported by Brivity or Google.</p>
+    </section>
+
+    <section>
+      <h2>Information CRM Sync reads in Brivity</h2>
+      <p>CRM Sync uses your existing Brivity login in Chrome. It only works on <code>app.brivity.com</code> and reads:</p>
+      <ul>
+        <li><strong>Result counts</strong> from the People page for each agent, using fixed filters (for example "New leads with no call").</li>
+        <li><strong>Per-agent totals</strong> from the Appointment Tracking report (appointments set) and the Call Activity report (total calls).</li>
+        <li><strong>Overdue task counts</strong> for each agent. To get these, CRM Sync changes the Task Filter on the Overdue Tasks page to one agent at a time during a sync.</li>
+        <li><strong>Your team's user list</strong> (names, user types, login emails and access status) from the Account page, and agents' Brivity ID numbers, so it can match the agents on your Team Roster to the right people in Brivity.</li>
+      </ul>
+      <p>CRM Sync does not read, copy or store your leads' or contacts' names, phone numbers, email addresses, notes or other details. It never changes any data in Brivity.</p>
+    </section>
+
+    <section>
+      <h2>Information CRM Sync uses in Google</h2>
+      <p>When you click Connect Google, Google asks you to allow two things:</p>
+      <ul>
+        <li><strong>See, edit, create and delete your Google Sheets spreadsheets</strong> (<code>spreadsheets</code>). CRM Sync only opens the one scorecard you link during setup. In it, it reads the Team Roster and Audit Sheet tabs (agent names, login emails, column titles and existing rows), checks the sheet's protections and dropdowns before writing, and writes each sync's results as new rows in the Audit Sheet, plus a short run record in a Logs tab it creates.</li>
+        <li><strong>See your email address</strong> (<code>userinfo.email</code>), only to show which Google account is connected in CRM Sync's settings.</li>
+      </ul>
+      <p>CRM Sync doesn't open, read or change any other file in your Google account.</p>
+      <p>CRM Sync's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+    </section>
+
+    <section>
+      <h2>Information stored on your computer</h2>
+      <p>CRM Sync saves the following in Chrome's extension storage on your computer, so it can remember your setup between syncs:</p>
+      <ul>
+        <li>The link and title of your connected sheet, and the email of the connected Google account.</li>
+        <li>Your agent list: names, login emails, Brivity ID numbers and user types.</li>
+        <li>Your settings (sync speed and refresh timer), and the results and activity log of your most recent sync.</li>
+      </ul>
+      <p>Google's sign-in token is kept by Chrome itself. None of this is sent anywhere except as described above.</p>
+    </section>
+
+    <section>
+      <h2>What CRM Sync never does</h2>
+      <ul>
+        <li>It has no server, account system or database of its own. Nothing is sent to VA Labs.</li>
+        <li>It contains no analytics, tracking or advertising.</li>
+        <li>It never sells, rents, shares or transfers your data to anyone.</li>
+        <li>It doesn't use your data for any purpose other than filling in your scorecard, and never to decide creditworthiness or for lending.</li>
+        <li>It doesn't read your browsing on any site other than Brivity.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Keeping, removing and controlling your data</h2>
+      <ul>
+        <li><strong>On your computer:</strong> uninstalling CRM Sync deletes everything it stored in Chrome.</li>
+        <li><strong>In your sheet:</strong> the rows CRM Sync writes are yours, in your own Google Sheet. Edit or delete them any time.</li>
+        <li><strong>Google access:</strong> remove CRM Sync's access to your Google account at any time from <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</li>
+      </ul>
+      <p>Because VA Labs doesn't collect or hold your data, there is nothing on our side to access, correct or delete. If you have a question about your data, wherever you are (including the United States and the Philippines), contact us below.</p>
+    </section>
+
+    <section>
+      <h2>Security</h2>
+      <p>CRM Sync talks only to Brivity and Google, always over encrypted HTTPS connections, and only with the permissions you grant. It can only reach Brivity while you're logged in to it in Chrome.</p>
+    </section>
+
+    <section>
+      <h2>Who it's for</h2>
+      <p>CRM Sync is a work tool for virtual assistants and real estate teams. It isn't intended for children.</p>
+    </section>
+
+    <section>
+      <h2>Changes to this policy</h2>
+      <p>If CRM Sync starts handling data differently, this page will be updated and its effective date changed before the new version is released.</p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>Questions about this policy or your data: <a href="mailto:noobpsykho@gmail.com">noobpsykho@gmail.com</a>.</p>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <span>VA Labs by Izzy P.</span>
+      <a href="./">Home</a>
+    </div>
+  </footer>
+</body>
+</html>
