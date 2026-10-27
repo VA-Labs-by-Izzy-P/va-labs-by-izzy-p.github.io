@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Choose your scorecard | CRM Sync</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .pick { max-width: 34rem; margin: 3.5rem auto 4rem; }
+    .pick h1 { font-size: clamp(1.9rem, 5vw, 2.5rem); line-height: 1.1; letter-spacing: -.02em; margin: 0 0 .75rem; }
+    .pick .lede { color: var(--muted); margin-bottom: 1.5rem; }
+    .pick ol { padding-left: 1.2rem; margin-bottom: 1.5rem; }
+    .go { font: inherit; font-weight: 650; border: 0; border-radius: 10px; padding: .85rem 1.3rem; background: var(--link); color: #fff; cursor: pointer; }
+    .go:hover { background: #004A96; }
+    .go:disabled { opacity: .55; cursor: default; }
+    .msg { margin-top: 1.25rem; border-radius: 12px; padding: 1rem 1.15rem; display: none; }
+    .msg.show { display: block; }
+    .msg.ok { background: #E8F5EC; color: #135C2E; }
+    .msg.warn { background: #FFF6DB; color: #7A4B00; }
+    .msg.err { background: #FDECEC; color: #9B1C1C; }
+    .fine { font-size: .92rem; color: var(--muted); margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="./"><img src="va-labs-logo.png" alt="" width="40" height="40">VA Labs by Izzy P.</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="pick">
+      <h1>Choose your scorecard</h1>
+      <p class="lede">CRM Sync can only open the Google Sheet you choose here. Nothing else in your Google Drive is shared with it.</p>
+      <ol>
+        <li>Click <strong>Choose sheet in Google</strong> and sign in with <strong id="acct">the same Google account you connected in CRM Sync</strong>.</li>
+        <li>Google shows your scorecard. Click it, then <strong>Select</strong>.</li>
+        <li>This tab closes and CRM Sync carries on.</li>
+      </ol>
+      <button class="go" id="go" disabled>Loading…</button>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+      <p class="fine">This page uses Google's own sign-in and file picker. It doesn't store anything; it only tells CRM Sync which sheet you chose. <a href="crm-sync-privacy.html">Privacy policy</a></p>
+    </div>
+  </main>
+
+  <script>
+    // ── Settings (from the CRM Sync Google Cloud project) ─────────────────────
+    var API_KEY = 'AIzaSyBJRFAIEHWHG-799WNrmot98kNI03hmg_Q';                 // restricted to valabsbyizzyp.com, Picker API only
+    var WEB_CLIENT_ID = '745646231683-7jgs829n3uda2etd7jsiskjv8p176u6g.apps.googleusercontent.com';     // "Web application" client for https://valabsbyizzyp.com
+    var APP_ID = '745646231683';                        // Cloud project number: lets CRM Sync open the chosen file
+    // Only these CRM Sync installs may receive the result (Web Store version and the test copy).
+    var ALLOWED_EXTENSIONS = ['aajfemklfocekplhhiichldjicahjacp', 'jepjnjboeagolfhmagkciphlckjllemb'];
+
+    var q = new URLSearchParams(location.search);
+    var ext = q.get('ext') || '';
+    var fileId = (q.get('file') || '').replace(/[^a-zA-Z0-9_-]/g, '');
+    var hint = q.get('hint') || '';
+    var go = document.getElementById('go');
+    var msgEl = document.getElementById('msg');
+    var token = null, tokenClient = null, gisReady = false, pickerReady = false;
+
+    function say(kind, text) { msgEl.className = 'msg show ' + kind; msgEl.textContent = text; }
+    function ready() {
+      if (!(gisReady && pickerReady)) return;
+      go.disabled = false; go.textContent = 'Choose sheet in Google';
+    }
+    if (hint) document.getElementById('acct').textContent = hint + ' (the account connected in CRM Sync)';
+
+    if (ALLOWED_EXTENSIONS.indexOf(ext) < 0) {
+      go.textContent = 'Open this page from CRM Sync';
+      say('warn', 'Please open this page from CRM Sync: Settings, step 3, "Choose sheet in Google".');
+    }
+
+    function onGis() {
+      if (ALLOWED_EXTENSIONS.indexOf(ext) < 0) return;
+      tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: WEB_CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email',
+        hint: hint || undefined,
+        callback: onToken,
+        error_callback: function () { go.disabled = false; say('warn', 'Google sign-in was closed. Click Choose sheet in Google to try again.'); }
+      });
+      gisReady = true; ready();
+    }
+    function onGapi() { gapi.load('picker', function () { pickerReady = true; ready(); }); }
+
+    go.addEventListener('click', function () {
+      go.disabled = true;
+      msgEl.className = 'msg';
+      tokenClient.requestAccessToken({ prompt: token ? '' : 'select_account' });
+    });
+
+    function onToken(resp) {
+      if (!resp || resp.error) { go.disabled = false; say('warn', 'Google sign-in was not completed. Click Choose sheet in Google to try again.'); return; }
+      token = resp.access_token;
+      // drive.file access belongs to one Google account, so it must be the one connected in CRM Sync.
+      fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: 'Bearer ' + token } })
+        .then(function (r) { return r.json(); })
+        .then(function (me) {
+          if (hint && me.email && me.email.toLowerCase() !== hint.toLowerCase()) {
+            token = null; go.disabled = false;
+            say('err', 'You signed in as ' + me.email + ', but CRM Sync is connected to ' + hint + '. Click Choose sheet in Google again and pick ' + hint + '.');
+            return;
+          }
+          showPicker();
+        })
+        .catch(function () { showPicker(); });
+    }
+
+    function showPicker() {
+      var view = new google.picker.DocsView(google.picker.ViewId.SPREADSHEETS).setMode(google.picker.DocsViewMode.LIST);
+      if (fileId && typeof view.setFileIds === 'function') view.setFileIds(fileId);
+      new google.picker.PickerBuilder()
+        .addView(view)
+        .setOAuthToken(token)
+        .setDeveloperKey(API_KEY)
+        .setAppId(APP_ID)
+        .setTitle('Choose your scorecard')
+        .setCallback(onPicked)
+        .build()
+        .setVisible(true);
+    }
+
+    function onPicked(data) {
+      var action = data[google.picker.Response.ACTION];
+      if (action === google.picker.Action.CANCEL) { go.disabled = false; say('warn', 'No sheet chosen. Click Choose sheet in Google to try again.'); return; }
+      if (action !== google.picker.Action.PICKED) return;
+      var doc = data[google.picker.Response.DOCUMENTS][0];
+      var picked = { type: 'CRM_SYNC_PICKED', fileId: doc[google.picker.Document.ID], name: doc[google.picker.Document.NAME] || '' };
+      if (!(window.chrome && chrome.runtime && chrome.runtime.sendMessage)) {
+        go.disabled = false;
+        say('err', "Couldn't reach CRM Sync. Open this page in Chrome with CRM Sync installed, from Settings, step 3.");
+        return;
+      }
+      chrome.runtime.sendMessage(ext, picked, function (resp) {
+        if (chrome.runtime.lastError || !resp || !resp.ok) {
+          go.disabled = false;
+          say('err', "Couldn't reach CRM Sync. Make sure it's installed and up to date, then try again from Settings, step 3.");
+          return;
+        }
+        go.textContent = 'Done';
+        say('ok', 'Done! "' + picked.name + '" is connected to CRM Sync. This tab will close by itself.');
+      });
+    }
+  </script>
+  <script src="https://accounts.google.com/gsi/client" async defer onload="onGis()"></script>
+  <script src="https://apis.google.com/js/api.js" async defer onload="onGapi()"></script>
+</body>
+</html>
